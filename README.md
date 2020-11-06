@@ -11,7 +11,7 @@ pip3 install --user --upgrade git+https://github.com/twintproject/twint.git@orig
 ## CLI Excecution:
 - Here's an example of running Twint from the command line:
 ```
-twint -s Trump --since "08/01/2020 00:00:00" -o trumpTweets.csv --csv
+twint -s Trump --since "08-01-2020 00:00:00" -o trumpTweets.csv --csv
 ```
 This will pull all tweets with the keyword "Trump" and output in working directory as a csv file "trumpTweets.csv"
 
