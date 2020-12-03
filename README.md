@@ -31,5 +31,9 @@ twint.run.Search(c)
 ```
 This will also pull all tweets with the keyword "Trump" and output in working directory as a csv file "trumpTweets.csv"
 
+## Tweet Dataset
+The "clean" tweets dataset can be access via the following link to Google Drive:
+https://drive.google.com/file/d/1nKBMAyHiZEaJ_LWAcomQLtZ89OHmozLa/view?usp=sharing
+
 ## Further Information
 For further information on using the Twint Scraper check out the GitHub page: https://github.com/twintproject/twint
