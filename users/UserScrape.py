@@ -1,23 +1,39 @@
+import os
+import subprocess
 import sys
 import twint
+import time
 
-def getUsers(f_in, f_out):
-    f = open(f_in, "r")
-    for line in f.readlines():
-        user = line.strip()
-        c = twint.Config()
-        c.User_id = user
-        c.Store_csv = True
-        c.Output = f_out
+fileIn = sys.argv[1]
+fileOut = sys.argv[2]
+
+conf = twint.Config
+conf.User_full = True
+conf.Store_csv = True
+conf.Output = fileOut
+
+index = 0
+with open(fileIn, 'r') as user_list:
+    for user in user_list:
+        user = str.strip(user)
+        conf.Username = user
         try:
-            twint.run.Lookup(c)
+            twint.run.Lookup(conf)
+        except KeyError:
+            print(f'unable to pull user {user}')
+            continue
         except ValueError:
-            print(f"Unable to pull user: {user}")
-            pass
-    f.close()
-
-
-# argv[1] = input file (txt file of user ids)
-# argv[2] = output file (csv)
-if __name__ == '__main__':
-    getUsers(sys.argv[1], sys.argv[2])
+            print(f'unable to pull user {user}')
+            continue
+        except RuntimeError as e:
+            if (str(e) == 'Not found'):
+                print(f'unable to pull user {user}')
+                continue
+            else:
+                servers = ['us6698', 'us6983', 'us8041', 'us8195', 'us8029', 'us8056']
+                cmd = ['openpyn', 'us', '-s', servers[index], '-k', '--tcp']
+                index = (index+1) % 6
+                subprocess.Popen(cmd)
+                time.sleep(20)
+                conf.Proxy_host = 'localhost' # set twint to new vpn IP
+                continue
